@@ -9,5 +9,19 @@ namespace Aliyun.MNS
     /// </summary>
     public class Queue
     {
+        public SendQueueMessageResponse SendMessage(QueueMessage message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public QueueMessage ReceiveMessage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteMessage(string receiptHandle)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

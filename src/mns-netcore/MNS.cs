@@ -8,6 +8,7 @@ namespace Aliyun.MNS
     {
         public Queue GetQueue(string name)
         {
+            throw new NotImplementedException();
         }
     }
 }
