@@ -1,0 +1,15 @@
+image: Visual Studio 2017
+version: 1.0.{build}
+configuration: Release
+force_https_clone: true
+
+cache:
+  '%USERPROFILE%\.nuget\packages'
+  
+
+before_build:
+  - dotnet restore mns-netcore.sln
+  
+build:
+  project: mns-netcore.sln
+  verbosity: minimal
