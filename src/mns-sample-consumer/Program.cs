@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace sample_consumer
+namespace Aliyun.MNS.Sample.Consumer
 {
     class Program
     {
