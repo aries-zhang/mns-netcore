@@ -9,6 +9,8 @@ namespace Aliyun.MNS
 {
     public abstract class ApiRequestBase<R> where R : ApiResultBase
     {
+        private static HttpClient Http = new HttpClient();
+
         private MnsConfig config { get; set; }
         private HttpRequestMessage request { get; set; }
 
@@ -23,14 +25,11 @@ namespace Aliyun.MNS
 
         public async Task<R> Call()
         {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                this.BuildRequest();
+            this.BuildRequest();
 
-                var result = await httpClient.SendAsync(this.request);
-
-                return (R)Activator.CreateInstance(typeof(R), result);
-            }
+            var result = await Http.SendAsync(this.request);
+            
+            return (R)Activator.CreateInstance(typeof(R), result);
         }
 
         protected virtual void AdditionalHeaders()

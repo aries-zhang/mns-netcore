@@ -20,7 +20,7 @@ namespace Aliyun.MNS
             this.QueueName = queueName;
         }
     }
-    
+
     public class GetQueueAttributeResult : ApiResultBase
     {
         public QueueAttributeModel Result { get; set; }

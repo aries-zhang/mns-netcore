@@ -22,9 +22,9 @@ namespace Aliyun.MNS.Utility
             return xmlString;
         }
 
-        public static T Deserialize<T>(string xml)
+        public static T Deserialize<T>(string xml, string rootAttributeName = "")
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            XmlSerializer serializer = string.IsNullOrEmpty(rootAttributeName) ? new XmlSerializer(typeof(T)) : new XmlSerializer(typeof(T), new XmlRootAttribute(rootAttributeName));
             using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
             {
                 return (T)serializer.Deserialize(stream);
