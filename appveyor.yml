@@ -13,3 +13,12 @@ before_build:
 build:
   project: mns-netcore.sln
   verbosity: minimal
+  publish_nuget: true
+  
+artifacts:
+  - path: '**\*.nupkg'
+    name: mns-netcore
+
+deploy_script:
+  - ps: >-
+      echo $artifacts
