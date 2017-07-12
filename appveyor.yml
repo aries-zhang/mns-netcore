@@ -15,8 +15,11 @@ build:
   verbosity: minimal
   publish_nuget: true
   
+after_build:
+  - dotnet pack -c Release -o .\ src\mns-netcore\mns-netcore.csproj
+  
 artifacts:
-  - path: '**\*.nupkg'
+  - path: 'src\mns-netcore\mns-netcore\*.nupkg'
     name: mns-netcore
 
 deploy_script:
