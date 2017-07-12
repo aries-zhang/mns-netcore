@@ -15,7 +15,7 @@ build:
   publish_nuget: true
   
 after_build:
-  - dotnet pack -c Release -o .\ src\mns-netcore\mns-netcore.csproj
+  - dotnet /p:Version=%APPVEYOR_BUILD_VERSION% pack -c %CONFIGURATION% -o .\ src\mns-netcore\mns-netcore.csproj
   
 artifacts:
   - path: 'src\mns-netcore\mns-netcore*.nupkg'
