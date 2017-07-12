@@ -3,9 +3,8 @@ version: 1.0.{build}
 configuration: Release
 force_https_clone: true
 
-cache:
-  '%USERPROFILE%\.nuget\packages'
-  
+#cache:
+#  '%USERPROFILE%\.nuget\packages'
 
 before_build:
   - dotnet restore mns-netcore.sln
@@ -19,7 +18,7 @@ after_build:
   - dotnet pack -c Release -o .\ src\mns-netcore\mns-netcore.csproj
   
 artifacts:
-  - path: 'src\mns-netcore\mns-netcore\*.nupkg'
+  - path: 'src\mns-netcore\mns-netcore*.nupkg'
     name: mns-netcore
 
 deploy_script:
