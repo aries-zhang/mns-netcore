@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace Aliyun.MNS.Apis.Queue
 {
-    public class SendMessageApiRequest : ApiRequestBase<SendMessageApiParameter, SendMessageApiResult>
+    public class SendMessageApiRequest : ApiRequestBase<SendMessageApiParameter, ApiResult<SendMessageApiResultModel>>
     {
         public string QueueName { get; set; }
 
@@ -53,7 +53,7 @@ namespace Aliyun.MNS.Apis.Queue
     }
 
     [XmlRootAttribute(ElementName = "Message", Namespace = MnsConstants.MNS_XML_NS)]
-    public class SendMessageApiResult : ApiResultBase
+    public class SendMessageApiResultModel
     {
         [XmlElement]
         public string MessageId { get; set; }
@@ -63,16 +63,5 @@ namespace Aliyun.MNS.Apis.Queue
 
         [XmlElement(IsNullable = true)]
         public string ReceiptHandle { get; set; }
-
-        public SendMessageApiResult() : base(null) { }
-
-        public SendMessageApiResult(HttpResponseMessage response) : base(response)
-        {
-            var temp = XmlSerdeUtility.Deserialize<SendMessageApiResult>(this.ResponseText);
-
-            this.MessageId = temp.MessageId;
-            this.MessageBodyMD5 = temp.MessageBodyMD5;
-            this.ReceiptHandle = temp.ReceiptHandle;
-        }
     }
 }

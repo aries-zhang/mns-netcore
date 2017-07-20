@@ -2,7 +2,7 @@
 
 namespace Aliyun.MNS
 {
-    public class DeleteMessageApiRequest : ApiRequestBase<DeleteMessageApiResult>
+    public class DeleteMessageApiRequest : ApiRequestBase<ApiResult>
     {
         private MnsConfig config;
         private string queneName;
@@ -18,12 +18,5 @@ namespace Aliyun.MNS
         protected override string Path => $"/queues/{this.queneName}/messages?ReceiptHandle={this.receiptHandle}";
 
         protected override HttpMethod Method => HttpMethod.Delete;
-    }
-
-    public class DeleteMessageApiResult : ApiResultBase
-    {
-        public DeleteMessageApiResult(HttpResponseMessage response) : base(response)
-        {
-        }
     }
 }

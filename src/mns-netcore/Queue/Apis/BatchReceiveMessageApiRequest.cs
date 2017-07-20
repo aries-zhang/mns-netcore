@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace Aliyun.MNS
 {
-    internal class BatchReceiveMessageApiRequest : ApiRequestBase<BatchReceiveMessageApiResult>
+    internal class BatchReceiveMessageApiRequest : ApiRequestBase<ApiResult<BatchReceiveMessageModel>>
     {
         private MnsConfig config;
         private string queueName;
@@ -23,16 +23,6 @@ namespace Aliyun.MNS
             this.queueName = queueName;
             this.waitseconds = waitseconds;
             this.numOfMessages = numOfMessages;
-        }
-    }
-
-    public class BatchReceiveMessageApiResult : ApiResultBase
-    {
-        public BatchReceiveMessageModel Result { get; set; }
-
-        public BatchReceiveMessageApiResult(HttpResponseMessage response) : base(response)
-        {
-            this.Result = XmlSerdeUtility.Deserialize<BatchReceiveMessageModel>(this.ResponseText);
         }
     }
 

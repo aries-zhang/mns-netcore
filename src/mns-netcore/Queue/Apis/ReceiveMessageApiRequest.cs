@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace Aliyun.MNS
 {
-    public class ReceiveMessageApiRequest : ApiRequestBase<ReceiveMessageApiResult>
+    public class ReceiveMessageApiRequest : ApiRequestBase<ApiResult<ReceiveMessageModel>>
     {
         private MnsConfig config;
         private string queueName;
@@ -20,16 +20,6 @@ namespace Aliyun.MNS
             this.config = config;
             this.queueName = queueName;
             this.waitSeconds = waitSeconds;
-        }
-    }
-
-    public class ReceiveMessageApiResult : ApiResultBase
-    {
-        public ReceiveMessageModel Result { get; set; }
-
-        public ReceiveMessageApiResult(HttpResponseMessage response) : base(response)
-        {
-            this.Result = XmlSerdeUtility.Deserialize<ReceiveMessageModel>(this.ResponseText);
         }
     }
 
