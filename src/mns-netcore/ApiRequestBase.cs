@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Aliyun.MNS
 {
-    public abstract class ApiRequestBase<R> where R : ApiResultBase
+    public abstract class ApiRequestBase<R> where R : ApiResult
     {
         private static HttpClient Http = new HttpClient();
 
@@ -54,7 +54,7 @@ namespace Aliyun.MNS
         }
     }
 
-    public abstract class ApiRequestBase<P, R> : ApiRequestBase<R> where P : ApiParameterBase where R : ApiResultBase
+    public abstract class ApiRequestBase<P, R> : ApiRequestBase<R> where P : ApiParameterBase where R : ApiResult
     {
         public P Parameter { get; set; }
 

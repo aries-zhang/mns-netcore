@@ -5,10 +5,14 @@ namespace Aliyun.MNS
 {
     public interface IQueue
     {
-        Task<BatchReceiveMessageApiResult> BatchReceiveMessage();
-        Task<DeleteMessageApiResult> DeleteMessage(string receiptHandle);
-        Task<GetQueueAttributeResult> GetAttributes();
-        Task<ReceiveMessageApiResult> ReceiveMessage(int waitSeconds = 10);
-        Task<SendMessageApiResult> SendMessage(string message, int delaySeconds = 0, int priority = 8);
+        Task<ApiResult<QueueAttributeModel>> GetAttributes();
+
+        Task<ApiResult<SendMessageApiResultModel>> SendMessage(string message, int delaySeconds = 0, int priority = 8);
+
+        Task<ApiResult<ReceiveMessageModel>> ReceiveMessage(int waitSeconds = 10);
+
+        Task<ApiResult<BatchReceiveMessageModel>> BatchReceiveMessage();
+
+        Task<ApiResult> DeleteMessage(string receiptHandle);
     }
 }

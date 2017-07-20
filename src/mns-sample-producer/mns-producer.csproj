@@ -11,6 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="run.cmd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="run.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\mns-netcore\mns-netcore.csproj" />
   </ItemGroup>
 

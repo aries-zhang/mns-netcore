@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace Aliyun.MNS
 {
-    public class GetQueueAttributeApiRequest : ApiRequestBase<GetQueueAttributeResult>
+    public class GetQueueAttributeApiRequest : ApiRequestBase<ApiResult<QueueAttributeModel>>
     {
         public string QueueName { get; set; }
 
@@ -18,16 +18,6 @@ namespace Aliyun.MNS
         public GetQueueAttributeApiRequest(MnsConfig config, string queueName) : base(config)
         {
             this.QueueName = queueName;
-        }
-    }
-
-    public class GetQueueAttributeResult : ApiResultBase
-    {
-        public QueueAttributeModel Result { get; set; }
-
-        public GetQueueAttributeResult(HttpResponseMessage response) : base(response)
-        {
-            this.Result = XmlSerdeUtility.Deserialize<QueueAttributeModel>(this.ResponseText);
         }
     }
 
