@@ -16,19 +16,9 @@ namespace Aliyun.MNS.Sample.Consumer
         private static string Host = Environment.GetEnvironmentVariable("ALIYUN_MNS_HOST");
         private static string AccessKey = Environment.GetEnvironmentVariable("ALIYUN_MNS_ACCESSKEY");
         private static string AccessSecret = Environment.GetEnvironmentVariable("ALIYUN_MNS_ACCESSSECRET");
-        
+
         static void Main(string[] args)
         {
-            //var test = new BatchReceiveMessageModel()
-            //{
-            //    Messages = new ReceiveMessageModel[] {
-            //        new ReceiveMessageModel(){ MessageId="1"},
-            //        new ReceiveMessageModel(){ MessageId="2" }
-            //    }.ToList()
-            //};
-
-            //Console.WriteLine(XmlSerdeUtility.Serialize(test));
-
             Console.WriteLine($"Host: {Host}");
             Console.WriteLine($"AccessKey: {AccessKey}");
             Console.WriteLine($"AccessSecret: {AccessSecret}");
@@ -37,15 +27,19 @@ namespace Aliyun.MNS.Sample.Consumer
 
             while (true)
             {
-                var message = Queue.ReceiveMessage().Result.Result;
+                var message = Queue.BatchReceiveMessage().Result.Result;
 
-                Console.WriteLine("message: {0}, {1}", message.MessageId, message.MessageBody);
+                Console.WriteLine("message [{0}]:", message.Messages.Count);
+                foreach (var msg in message.Messages)
+                {
+                    Console.WriteLine("\t{0}: {1}", msg.MessageId, msg.MessageBody);
+                }
                 Console.WriteLine("message processing..");
                 Thread.Sleep(2000);
 
                 Console.WriteLine("message processed");
 
-                Queue.DeleteMessage(message.ReceiptHandle);
+                Queue.BatchDeleteMessage(message.Messages.Select(m => m.ReceiptHandle).ToList());
 
                 Console.WriteLine("message deleted.");
             }

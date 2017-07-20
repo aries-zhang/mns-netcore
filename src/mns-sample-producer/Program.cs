@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Aliyun.MNS.Common;
+using Aliyun.MNS.Utility;
+using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Aliyun.MNS.Sample.Producer
 {
@@ -17,10 +21,15 @@ namespace Aliyun.MNS.Sample.Producer
 
             var Queue = MNS.Configure(Host, AccessKey, AccessSecret).Queue("aries-test");
 
-            var result = Queue.SendMessage(args.Length >= 1 ? args[0] : "test").Result;
+            for (int i = 0; i < 200; i++)
+            {
+                var result = Queue.SendMessage(args.Length >= 1 ? args[0] + i : "test" + i).Result;
+            }
 
             Console.WriteLine("Press any key to continue..");
             Console.Read();
         }
     }
+
+
 }

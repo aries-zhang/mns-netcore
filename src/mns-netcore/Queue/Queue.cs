@@ -1,5 +1,6 @@
 ﻿using Aliyun.MNS.Apis.Queue;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Aliyun.MNS
@@ -45,14 +46,28 @@ namespace Aliyun.MNS
             return result;
         }
 
-        public async Task<ApiResult<BatchReceiveMessageModel>> BatchReceiveMessage()
+        public async Task<ApiResult<BatchReceiveMessageModel>> BatchReceiveMessage(int waitseconds = 10, int numOfMessages = 16)
         {
-            return await new BatchReceiveMessageApiRequest(this.Config, this.Name).Call();
+            var request = new BatchReceiveMessageApiRequest(this.Config, this.Name, waitseconds: waitseconds, numOfMessages: numOfMessages);
+
+            var result = await request.Call();
+
+            while (result.Error != null && string.Equals(result.Error.Code, "MessageNotExist", StringComparison.OrdinalIgnoreCase))
+            {
+                result = await request.Call();
+            }
+
+            return result;
         }
 
         public async Task<ApiResult> DeleteMessage(string receiptHandle)
         {
             return await new DeleteMessageApiRequest(this.Config, this.Name, receiptHandle).Call();
+        }
+
+        public async Task<ApiResult> BatchDeleteMessage(List<string> receiptHandles)
+        {
+            return await new BatchDeleteMessageApiRequest(this.Config, this.Name, new BatchDeleteMessageApiParameter() { ReceiptHandles = receiptHandles }).Call();
         }
     }
 }
