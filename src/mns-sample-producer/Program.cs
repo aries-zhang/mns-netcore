@@ -1,8 +1,4 @@
-﻿using Aliyun.MNS.Common;
-using Aliyun.MNS.Utility;
-using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using System;
 
 namespace Aliyun.MNS.Sample.Producer
 {

@@ -1,12 +1,5 @@
-﻿using Aliyun.MNS.Utility;
-using System;
+﻿using System;
 using System.Linq;
-using System.IO;
-using System.Text;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Aliyun.MNS.Common;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace Aliyun.MNS.Sample.Consumer
