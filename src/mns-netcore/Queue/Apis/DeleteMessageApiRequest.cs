@@ -1,4 +1,8 @@
-﻿using System.Net.Http;
+﻿using Aliyun.MNS.Apis.Queue;
+using Aliyun.MNS.Common;
+using Aliyun.MNS.Utility;
+using System.Net;
+using System.Net.Http;
 
 namespace Aliyun.MNS
 {
@@ -18,5 +22,26 @@ namespace Aliyun.MNS
         protected override string Path => $"/queues/{this.queneName}/messages?ReceiptHandle={this.receiptHandle}";
 
         protected override HttpMethod Method => HttpMethod.Delete;
+    }
+
+    public class DeleteMessageApiResult : ApiResult
+    {
+        public DeleteMessageApiResult(HttpResponseMessage response) : base(response)
+        {
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.NoContent:
+                    break;
+                case HttpStatusCode.NotFound:
+                    throw new QueueNotExistException(this.ResponseText);
+                case HttpStatusCode.BadRequest:
+                    {
+                        var error = XmlSerdeUtility.Deserialize<MnsError>(this.ResponseText);
+                        throw error.Code == "InvalidArgument" ? (MnsException)new InvalidArgumentException(error) : new ReceiptHandleErrorException(error);
+                    }
+                default:
+                    throw new UnknowException();
+            }
+        }
     }
 }

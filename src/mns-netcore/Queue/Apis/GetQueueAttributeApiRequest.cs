@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using Aliyun.MNS.Common;
+﻿using Aliyun.MNS.Common;
+using Aliyun.MNS.Model;
 using Aliyun.MNS.Utility;
-using System.Xml.Serialization;
+using System.Net;
+using System.Net.Http;
 
 namespace Aliyun.MNS
 {
-    public class GetQueueAttributeApiRequest : ApiRequestBase<ApiResult<QueueAttributeModel>>
+    public class GetQueueAttributeApiRequest : ApiRequestBase<GetQueueAttributeApiResult>
     {
         public string QueueName { get; set; }
 
@@ -21,19 +19,21 @@ namespace Aliyun.MNS
         }
     }
 
-    [XmlRootAttribute(ElementName = "Queue", Namespace = MnsConstants.MNS_XML_NS)]
-    public class QueueAttributeModel
+    public class GetQueueAttributeApiResult : ApiResult<QueueAttributeModel>
     {
-        public string QueueName { get; set; } //Queue 的名称
-        public long CreateTime { get; set; }  //Queue 的创建时间，从1970-1-1 00:00:00 到现在的秒值
-        public long LastModifyTime { get; set; }  //修改 Queue 属性信息最近时间，从1970-1-1 00:00:00 到现在的秒值
-        public int DelaySeconds { get; set; }    //发送消息到该 Queue 的所有消息默认将以 DelaySeconds 参数指定的秒数延后可被消费，单位为秒
-        public long MaximumMessageSize { get; set; }  //发送到该 Queue 的消息体的最大长度，单位为byte
-        public int MessageRetentionPeriod { get; set; }  //消息在该 Queue 中最长的存活时间，从发送到该队列开始经过此参数指定的时间后，不论消息是否被取出过都将被删除，单位为秒
-        public int PollingWaitSeconds { get; set; }  //当 Queue 消息量为空时，针对该 Queue 的 ReceiveMessage 请求最长的等待时间，单位为秒
-        public long Activemessages { get; set; }  //在该 Queue 中处于 Active 状态的消息总数，为近似值
-        public long InactiveMessages { get; set; }    //在该 Queue 中处于 Inactive 状态的消息总数，为近似值
-        public long DelayMessages { get; set; }   //在该 Queue 中处于 Delayed 状态的消息总数，为近似值
-        public string LoggingEnabled { get; set; }  //是否开启日志管理功能，True表示启用，False表示停用
+        public GetQueueAttributeApiResult(HttpResponseMessage response) : base(response)
+        {
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    this.Result = XmlSerdeUtility.Deserialize<QueueAttributeModel>(this.ResponseText);
+                    break;
+                case HttpStatusCode.NotFound:
+                    throw new QueueNotExistException(this.ResponseText);
+                default:
+                    throw new UnknowException();
+            }
+        }
     }
+
 }

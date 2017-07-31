@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aliyun.MNS.Common;
+using System;
 using System.Linq;
 using System.Threading;
 
@@ -20,21 +21,31 @@ namespace Aliyun.MNS.Sample.Consumer
 
             while (true)
             {
-                var message = Queue.BatchReceiveMessage().Result.Result;
-
-                Console.WriteLine("message [{0}]:", message.Messages.Count);
-                foreach (var msg in message.Messages)
+                try
                 {
-                    Console.WriteLine("\t{0}: {1}", msg.MessageId, msg.MessageBody);
+                    var message = Queue.BatchReceiveMessage().Result;
+
+                    Console.WriteLine("message [{0}]:", message.Messages.Count);
+                    foreach (var msg in message.Messages)
+                    {
+                        Console.WriteLine("\t{0}: {1}", msg.MessageId, msg.MessageBody);
+                    }
+                    Console.WriteLine("message processing..");
+                    Thread.Sleep(2000);
+
+                    Console.WriteLine("message processed");
+
+                    Queue.BatchDeleteMessage(message.Messages.Select(m => m.ReceiptHandle).ToList());
+
+                    Console.WriteLine("message deleted.");
                 }
-                Console.WriteLine("message processing..");
-                Thread.Sleep(2000);
-
-                Console.WriteLine("message processed");
-
-                Queue.BatchDeleteMessage(message.Messages.Select(m => m.ReceiptHandle).ToList());
-
-                Console.WriteLine("message deleted.");
+                catch (Exception ex)
+                {
+                    if (ex is MessageNotExistException)
+                        continue;
+                    else
+                        Console.WriteLine("{0}\n{1}", ex.Message, ex.StackTrace);
+                }
             }
         }
     }

@@ -1,10 +1,7 @@
-﻿using Aliyun.MNS.Common;
+﻿using Aliyun.MNS.Model;
 using Aliyun.MNS.Utility;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
-using System.Xml.Serialization;
 
 namespace Aliyun.MNS
 {
@@ -30,12 +27,5 @@ namespace Aliyun.MNS
                 return xml;
             }
         }
-    }
-
-    [XmlRoot(ElementName = "ReceiptHandles", Namespace = MnsConstants.MNS_XML_NS)]
-    public class BatchDeleteMessageApiParameter : ApiParameterBase
-    {
-        [XmlElement(ElementName = "ReceiptHandle")]
-        public List<string> ReceiptHandles { get; set; }
     }
 }

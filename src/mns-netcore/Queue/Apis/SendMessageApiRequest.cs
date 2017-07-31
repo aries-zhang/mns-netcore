@@ -1,15 +1,13 @@
 ﻿using Aliyun.MNS.Common;
+using Aliyun.MNS.Model;
 using Aliyun.MNS.Utility;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Xml.Serialization;
 
 namespace Aliyun.MNS.Apis.Queue
 {
-    public class SendMessageApiRequest : ApiRequestBase<SendMessageApiParameter, ApiResult<SendMessageApiResultModel>>
+    public class SendMessageApiRequest : ApiRequestBase<SendMessageApiParameter, SendMessageApiResult>
     {
         public string QueueName { get; set; }
 
@@ -39,29 +37,25 @@ namespace Aliyun.MNS.Apis.Queue
         }
     }
 
-    [XmlRootAttribute(ElementName = "Message", Namespace = MnsConstants.MNS_XML_NS)]
-    public class SendMessageApiParameter: ApiParameterBase
+    public class SendMessageApiResult : ApiResult<SendMessageApiResultModel>
     {
-        [XmlElement]
-        public string MessageBody { get; set; }
-
-        [XmlElement]
-        public int DelaySeconds { get; set; }
-
-        [XmlElement]
-        public int Priority { get; set; }
-    }
-
-    [XmlRootAttribute(ElementName = "Message", Namespace = MnsConstants.MNS_XML_NS)]
-    public class SendMessageApiResultModel
-    {
-        [XmlElement]
-        public string MessageId { get; set; }
-
-        [XmlElement]
-        public string MessageBodyMD5 { get; set; }
-
-        [XmlElement(IsNullable = true)]
-        public string ReceiptHandle { get; set; }
+        public SendMessageApiResult(HttpResponseMessage response) : base(response)
+        {
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Created:
+                    this.Result = XmlSerdeUtility.Deserialize<SendMessageApiResultModel>(this.ResponseText);
+                    break;
+                case HttpStatusCode.NotFound:
+                    throw new QueueNotExistException(this.ResponseText);
+                case HttpStatusCode.BadRequest:
+                    {
+                        var error = XmlSerdeUtility.Deserialize<MnsError>(this.ResponseText);
+                        throw error.Code == "MalformedXML" ? (MnsException)new MalformedXMLException(error) : new InvalidArgumentException(error);
+                    }
+                default:
+                    throw new UnknowException();
+            }
+        }
     }
 }

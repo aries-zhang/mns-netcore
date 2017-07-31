@@ -1,13 +1,12 @@
 ﻿using Aliyun.MNS.Common;
+using Aliyun.MNS.Model;
 using Aliyun.MNS.Utility;
-using System;
-using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
-using System.Xml.Serialization;
 
 namespace Aliyun.MNS
 {
-    internal class BatchReceiveMessageApiRequest : ApiRequestBase<ApiResult<BatchReceiveMessageModel>>
+    internal class BatchReceiveMessageApiRequest : ApiRequestBase<BatchReceiveMessageApiResult>
     {
         private MnsConfig config;
         private string queueName;
@@ -26,10 +25,23 @@ namespace Aliyun.MNS
         }
     }
 
-    [XmlRoot(ElementName = "Messages", Namespace = MnsConstants.MNS_XML_NS)]
-    public class BatchReceiveMessageModel
+    public class BatchReceiveMessageApiResult : ApiResult<BatchReceiveMessageModel>
     {
-        [XmlElement(ElementName = "Message")]
-        public List<ReceiveMessageModel> Messages { get; set; }
+        public BatchReceiveMessageApiResult(HttpResponseMessage response) : base(response)
+        {
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    this.Result = XmlSerdeUtility.Deserialize<BatchReceiveMessageModel>(this.ResponseText);
+                    break;
+                case HttpStatusCode.NotFound:
+                    {
+                        var error = XmlSerdeUtility.Deserialize<MnsError>(this.ResponseText);
+                        throw error.Code == "QueueNotExist" ? (MnsException)new QueueNotExistException(error) : new MessageNotExistException(error);
+                    }
+                default:
+                    throw new UnknowException();
+            }
+        }
     }
 }
