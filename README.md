@@ -32,7 +32,7 @@ while (true)
 
         Console.WriteLine("message processed");
 
-        Queue.BatchDeleteMessage(message.ReceiptHandle);
+        Queue.DeleteMessage(message.ReceiptHandle);
 
         Console.WriteLine("message deleted.");
     }
