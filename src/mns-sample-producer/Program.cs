@@ -1,8 +1,4 @@
-﻿using Aliyun.MNS.Common;
-using Aliyun.MNS.Utility;
-using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using System;
 
 namespace Aliyun.MNS.Sample.Producer
 {
@@ -23,7 +19,7 @@ namespace Aliyun.MNS.Sample.Producer
 
             for (int i = 0; i < 200; i++)
             {
-                var result = Queue.SendMessage(args.Length >= 1 ? args[0] + i : "test" + i).Result;
+                var result = Queue.SendMessage(args.Length >= 1 ? args[0] + i : "test" + i);
             }
 
             Console.WriteLine("Press any key to continue..");

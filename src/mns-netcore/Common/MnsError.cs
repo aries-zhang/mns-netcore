@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using System.Xml.Serialization;
 
 namespace Aliyun.MNS.Common
@@ -19,5 +16,10 @@ namespace Aliyun.MNS.Common
         public string RequestIdMessage { get; set; }
         [XmlElement]
         public string HostIdMessage { get; set; }
+
+        public string ToJson()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
     }
 }

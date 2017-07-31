@@ -1,5 +1,4 @@
-﻿using Aliyun.MNS.Common;
-using Aliyun.MNS.Utility;
+﻿using Aliyun.MNS.Utility;
 using System.Net;
 using System.Net.Http;
 
@@ -11,20 +10,12 @@ namespace Aliyun.MNS
 
         public string ResponseText { get; set; }
 
-        public MnsError Error { get; set; }
-
         public ApiResult(HttpResponseMessage response)
         {
             if (response != null)
             {
                 this.Response = response;
                 this.ResponseText = response.Content.ReadAsStringAsync().Result;
-
-                if (this.Response.StatusCode == HttpStatusCode.NotFound || this.Response.StatusCode == HttpStatusCode.BadRequest || this.Response.StatusCode == HttpStatusCode.Conflict)
-                {
-                    this.Error = XmlSerdeUtility.Deserialize<MnsError>(this.ResponseText);
-                    this.Error.StatusCode = this.Response.StatusCode;
-                }
             }
         }
     }
@@ -35,10 +26,10 @@ namespace Aliyun.MNS
 
         public ApiResult(HttpResponseMessage response) : base(response)
         {
-            if (this.Response.StatusCode == HttpStatusCode.OK)
-            {
-                this.Result = XmlSerdeUtility.Deserialize<T>(this.ResponseText);
-            }
+            //if (this.Response.StatusCode == HttpStatusCode.OK || this.Response.StatusCode == HttpStatusCode.NoContent || this.Response.StatusCode == HttpStatusCode.Created)
+            //{
+            //    this.Result = XmlSerdeUtility.Deserialize<T>(this.ResponseText);
+            //}
         }
     }
 }
