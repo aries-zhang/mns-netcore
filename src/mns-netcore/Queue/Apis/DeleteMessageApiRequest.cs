@@ -1,6 +1,7 @@
 ﻿using Aliyun.MNS.Apis.Queue;
 using Aliyun.MNS.Common;
 using Aliyun.MNS.Utility;
+using System;
 using System.Net;
 using System.Net.Http;
 
@@ -14,6 +15,11 @@ namespace Aliyun.MNS
 
         public DeleteMessageApiRequest(MnsConfig config, string queneName, string receiptHandle) : base(config)
         {
+            if (string.IsNullOrEmpty(receiptHandle))
+            {
+                throw new ArgumentException(receiptHandle);
+            }
+
             this.config = config;
             this.queneName = queneName;
             this.receiptHandle = receiptHandle;
@@ -40,7 +46,7 @@ namespace Aliyun.MNS
                         throw error.Code == "InvalidArgument" ? (MnsException)new InvalidArgumentException(error) : new ReceiptHandleErrorException(error);
                     }
                 default:
-                    throw new UnknowException();
+                    throw new UnknowException(response);
             }
         }
     }

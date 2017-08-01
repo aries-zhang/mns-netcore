@@ -31,7 +31,7 @@ namespace Aliyun.MNS
                 case HttpStatusCode.NotFound:
                     throw new QueueNotExistException(this.ResponseText);
                 default:
-                    throw new UnknowException();
+                    throw new UnknowException(response);
             }
         }
     }

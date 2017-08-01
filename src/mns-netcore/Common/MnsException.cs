@@ -1,5 +1,6 @@
 ﻿using Aliyun.MNS.Utility;
 using System;
+using System.Net.Http;
 
 namespace Aliyun.MNS.Common
 {
@@ -20,7 +21,9 @@ namespace Aliyun.MNS.Common
 
     public class UnknowException : MnsException
     {
-        public UnknowException() : base(new MnsError() { Code = "Unknown", Message = "Unknown error" })
+        public HttpResponseMessage Response;
+
+        public UnknowException(HttpResponseMessage response) : base(new MnsError() { Code = "Unknown", Message = "Unknown error" })
         {
         }
     }

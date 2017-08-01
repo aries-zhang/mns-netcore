@@ -23,6 +23,11 @@ namespace Aliyun.MNS.Apis.Queue
                 Priority = priority
             })
         {
+            if (string.IsNullOrEmpty(messageBody))
+            {
+                throw new ArgumentException("messageBody");
+            }
+
             this.QueueName = queueName;
         }
 
@@ -31,7 +36,7 @@ namespace Aliyun.MNS.Apis.Queue
             get
             {
                 var xml = XmlSerdeUtility.Serialize(this.Parameter);
-                Console.WriteLine(xml);
+
                 return xml;
             }
         }
@@ -54,7 +59,7 @@ namespace Aliyun.MNS.Apis.Queue
                         throw error.Code == "MalformedXML" ? (MnsException)new MalformedXMLException(error) : new InvalidArgumentException(error);
                     }
                 default:
-                    throw new UnknowException();
+                    throw new UnknowException(response);
             }
         }
     }

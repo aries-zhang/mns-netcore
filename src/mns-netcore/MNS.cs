@@ -1,4 +1,5 @@
 ﻿using Aliyun.MNS.Apis.Queue;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,6 +18,21 @@ namespace Aliyun.MNS
 
         public static MNS Configure(string endpoint, string accessKeyId, string accessKeySecret)
         {
+            if (string.IsNullOrEmpty(endpoint))
+            {
+                throw new ArgumentException("endpoint");
+            }
+
+            if (string.IsNullOrEmpty(accessKeyId))
+            {
+                throw new ArgumentException("accessKeyId");
+            }
+
+            if (string.IsNullOrEmpty(accessKeySecret))
+            {
+                throw new ArgumentException("accessKeySecret");
+            }
+
             return MNS.Configure(new MnsConfig()
             {
                 Endpoint = endpoint,
@@ -32,6 +48,11 @@ namespace Aliyun.MNS
 
         public IQueue Queue(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("name");
+            }
+
             if (!queueMap.ContainsKey(name))
             {
                 queueMap.Add(name, new Queue(this.Config, name));

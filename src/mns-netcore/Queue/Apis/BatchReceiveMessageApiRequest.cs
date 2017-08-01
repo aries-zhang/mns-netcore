@@ -40,7 +40,7 @@ namespace Aliyun.MNS
                         throw error.Code == "QueueNotExist" ? (MnsException)new QueueNotExistException(error) : new MessageNotExistException(error);
                     }
                 default:
-                    throw new UnknowException();
+                    throw new UnknowException(response);
             }
         }
     }
