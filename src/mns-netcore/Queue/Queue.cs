@@ -22,44 +22,44 @@ namespace Aliyun.MNS
             this.Name = name;
         }
 
-        public async Task<QueueAttributeModel> GetAttributes()
+        public QueueAttributeModel GetAttributes()
         {
-            var response = await new GetQueueAttributeApiRequest(this.Config, this.Name).Call();
+            var response = new GetQueueAttributeApiRequest(this.Config, this.Name).Call();
 
             return response.Result;
         }
 
-        public async Task<SendMessageApiResultModel> SendMessage(string message, int delaySeconds = 0, int priority = 8)
+        public SendMessageApiResultModel SendMessage(string message, int delaySeconds = 0, int priority = 8)
         {
-            var response = await new SendMessageApiRequest(this.Config, this.Name, message, delaySeconds: delaySeconds, priority: priority).Call();
+            var response = new SendMessageApiRequest(this.Config, this.Name, message, delaySeconds: delaySeconds, priority: priority).Call();
 
             return response.Result;
         }
 
-        public async Task<ReceiveMessageModel> ReceiveMessage(int waitSeconds = 10)
+        public ReceiveMessageModel ReceiveMessage(int waitSeconds = 10)
         {
-            var response = await new ReceiveMessageApiRequest(this.Config, this.Name, waitSeconds: waitSeconds).Call();
+            var response = new ReceiveMessageApiRequest(this.Config, this.Name, waitSeconds: waitSeconds).Call();
 
             return response.Result;
         }
 
-        public async Task<BatchReceiveMessageModel> BatchReceiveMessage(int waitseconds = 10, int numOfMessages = 16)
+        public BatchReceiveMessageModel BatchReceiveMessage(int waitseconds = 10, int numOfMessages = 16)
         {
             var request = new BatchReceiveMessageApiRequest(this.Config, this.Name, waitseconds: waitseconds, numOfMessages: numOfMessages);
 
-            var result = await request.Call();
+            var result = request.Call();
 
             return result.Result;
         }
 
-        public async Task DeleteMessage(string receiptHandle)
+        public void DeleteMessage(string receiptHandle)
         {
-            await new DeleteMessageApiRequest(this.Config, this.Name, receiptHandle).Call();
+            new DeleteMessageApiRequest(this.Config, this.Name, receiptHandle).Call();
         }
 
-        public async Task BatchDeleteMessage(List<string> receiptHandles)
+        public void BatchDeleteMessage(List<string> receiptHandles)
         {
-            await new BatchDeleteMessageApiRequest(this.Config, this.Name, new BatchDeleteMessageApiParameter() { ReceiptHandles = receiptHandles }).Call();
+            new BatchDeleteMessageApiRequest(this.Config, this.Name, new BatchDeleteMessageApiParameter() { ReceiptHandles = receiptHandles }).Call();
         }
     }
 }

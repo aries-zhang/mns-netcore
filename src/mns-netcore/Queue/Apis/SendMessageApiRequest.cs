@@ -46,7 +46,11 @@ namespace Aliyun.MNS.Apis.Queue
     {
         public SendMessageApiResult(HttpResponseMessage response) : base(response)
         {
-            switch (response.StatusCode)
+        }
+
+        public override void Validate()
+        {
+            switch (this.Response.StatusCode)
             {
                 case HttpStatusCode.Created:
                     this.Result = XmlSerdeUtility.Deserialize<SendMessageApiResultModel>(this.ResponseText);
@@ -59,7 +63,7 @@ namespace Aliyun.MNS.Apis.Queue
                         throw error.Code == "MalformedXML" ? (MnsException)new MalformedXMLException(error) : new InvalidArgumentException(error);
                     }
                 default:
-                    throw new UnknowException(response);
+                    throw new UnknowException(this.Response);
             }
         }
     }

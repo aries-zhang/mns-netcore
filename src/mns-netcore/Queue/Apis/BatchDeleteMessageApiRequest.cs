@@ -20,6 +20,7 @@ namespace Aliyun.MNS
                 throw new ArgumentException("parameter");
             }
 
+            this.config = config;
             this.queueName = queueName;
         }
 

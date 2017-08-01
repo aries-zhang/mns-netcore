@@ -34,7 +34,11 @@ namespace Aliyun.MNS
     {
         public DeleteMessageApiResult(HttpResponseMessage response) : base(response)
         {
-            switch (response.StatusCode)
+        }
+
+        public override void Validate()
+        {
+            switch (this.Response.StatusCode)
             {
                 case HttpStatusCode.NoContent:
                     break;
@@ -46,7 +50,7 @@ namespace Aliyun.MNS
                         throw error.Code == "InvalidArgument" ? (MnsException)new InvalidArgumentException(error) : new ReceiptHandleErrorException(error);
                     }
                 default:
-                    throw new UnknowException(response);
+                    throw new UnknowException(this.Response);
             }
         }
     }

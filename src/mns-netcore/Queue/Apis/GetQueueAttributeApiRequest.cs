@@ -3,6 +3,7 @@ using Aliyun.MNS.Model;
 using Aliyun.MNS.Utility;
 using System.Net;
 using System.Net.Http;
+using System;
 
 namespace Aliyun.MNS
 {
@@ -23,7 +24,11 @@ namespace Aliyun.MNS
     {
         public GetQueueAttributeApiResult(HttpResponseMessage response) : base(response)
         {
-            switch (response.StatusCode)
+        }
+
+        public override void Validate()
+        {
+            switch (this.Response.StatusCode)
             {
                 case HttpStatusCode.OK:
                     this.Result = XmlSerdeUtility.Deserialize<QueueAttributeModel>(this.ResponseText);
@@ -31,7 +36,7 @@ namespace Aliyun.MNS
                 case HttpStatusCode.NotFound:
                     throw new QueueNotExistException(this.ResponseText);
                 default:
-                    throw new UnknowException(response);
+                    throw new UnknowException(this.Response);
             }
         }
     }

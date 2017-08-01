@@ -18,6 +18,10 @@ namespace Aliyun.MNS
                 this.ResponseText = response.Content.ReadAsStringAsync().Result;
             }
         }
+
+        public virtual void Validate()
+        {
+        }
     }
 
     public class ApiResult<T> : ApiResult where T : class
@@ -26,10 +30,6 @@ namespace Aliyun.MNS
 
         public ApiResult(HttpResponseMessage response) : base(response)
         {
-            //if (this.Response.StatusCode == HttpStatusCode.OK || this.Response.StatusCode == HttpStatusCode.NoContent || this.Response.StatusCode == HttpStatusCode.Created)
-            //{
-            //    this.Result = XmlSerdeUtility.Deserialize<T>(this.ResponseText);
-            //}
         }
     }
 }
