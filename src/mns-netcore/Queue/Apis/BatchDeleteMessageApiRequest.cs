@@ -15,6 +15,12 @@ namespace Aliyun.MNS
 
         public BatchDeleteMessageApiRequest(MnsConfig config, string queueName, BatchDeleteMessageApiParameter parameter) : base(config, parameter)
         {
+            if (parameter == null || parameter.ReceiptHandles == null || parameter.ReceiptHandles.Count <= 0)
+            {
+                throw new ArgumentException("parameter");
+            }
+
+            this.config = config;
             this.queueName = queueName;
         }
 

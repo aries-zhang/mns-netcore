@@ -24,7 +24,7 @@ while (true)
 {
     try
     {
-        var message = await Queue.ReceiveMessage();
+        var message = Queue.ReceiveMessage();
 
         Console.WriteLine("message processing..");
 

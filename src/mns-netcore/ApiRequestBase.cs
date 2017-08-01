@@ -23,13 +23,16 @@ namespace Aliyun.MNS
             this.config = config;
         }
 
-        public async Task<R> Call()
+        public R Call()
         {
             this.BuildRequest();
 
-            var result = await Http.SendAsync(this.request);
-            
-            return (R)Activator.CreateInstance(typeof(R), result);
+            var response = Http.SendAsync(this.request).Result;
+
+            R result = (R)Activator.CreateInstance(typeof(R), response);
+            result.Validate();
+
+            return result;
         }
 
         protected virtual void AdditionalHeaders()

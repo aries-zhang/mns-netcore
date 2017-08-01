@@ -3,6 +3,7 @@ using Aliyun.MNS.Model;
 using Aliyun.MNS.Utility;
 using System.Net;
 using System.Net.Http;
+using System;
 
 namespace Aliyun.MNS
 {
@@ -29,7 +30,11 @@ namespace Aliyun.MNS
     {
         public BatchReceiveMessageApiResult(HttpResponseMessage response) : base(response)
         {
-            switch (response.StatusCode)
+        }
+
+        public override void Validate()
+        {
+            switch (this.Response.StatusCode)
             {
                 case HttpStatusCode.OK:
                     this.Result = XmlSerdeUtility.Deserialize<BatchReceiveMessageModel>(this.ResponseText);
@@ -40,7 +45,7 @@ namespace Aliyun.MNS
                         throw error.Code == "QueueNotExist" ? (MnsException)new QueueNotExistException(error) : new MessageNotExistException(error);
                     }
                 default:
-                    throw new UnknowException();
+                    throw new UnknowException(this.Response);
             }
         }
     }
