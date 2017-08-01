@@ -23,7 +23,7 @@ namespace Aliyun.MNS.Sample.Consumer
             {
                 try
                 {
-                    var message = Queue.BatchReceiveMessage().Result;
+                    var message = Queue.BatchReceiveMessage();
 
                     Console.WriteLine("message [{0}]:", message.Messages.Count);
                     foreach (var msg in message.Messages)
