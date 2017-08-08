@@ -19,13 +19,13 @@ namespace Aliyun.MNS
 
         void BatchDeleteMessage(List<string> receiptHandles);
 
-        string CreateQueue(QueueAttributeParameter parameter);
+        string CreateQueue(QueueAttributeParameter parameter = null);
 
         void SetQueueAttributes(QueueAttributeParameter parameter);
 
         void DeleteQueue();
 
-        QueueListModel ListQueue(string prefix = "", int pageSize = 0, string nextMarker = "");
+        //QueueListModel ListQueue(string prefix = "", int pageSize = 0, string nextMarker = "");
 
         // PeekMessage
         // BatchPeekMessage

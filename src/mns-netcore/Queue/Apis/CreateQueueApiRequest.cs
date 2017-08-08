@@ -17,6 +17,11 @@ namespace Aliyun.MNS
 
         public CreateQueueApiRequest(MnsConfig config, string queueName, QueueAttributeParameter parameter) : base(config, parameter)
         {
+            if (parameter == null)
+            {
+                throw new ArgumentException("parameter");
+            }
+
             parameter.Validate();
 
             this.QueueName = queueName;

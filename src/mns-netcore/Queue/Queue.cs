@@ -8,7 +8,7 @@ namespace Aliyun.MNS
     /// Queue 的操作：CreateQueue，DeleteQueue，ListQueue，GetQueueAttributes，SetQueueAttributes.
     /// Message 的操作：SendMessage，BatchSendMessage，ReceiveMessage，BatchReceiveMessage，PeekMessage，BatchPeekMessage，DeleteMessage，BatchDeleteMessage，ChangeMessageVisibility.
     /// </summary>
-    public class Queue : IQueue
+    internal class Queue : IQueue
     {
         public MnsConfig Config { get; set; }
 
@@ -16,6 +16,7 @@ namespace Aliyun.MNS
 
         public Queue(MnsConfig config)
         {
+            this.Config = config;
         }
 
         public Queue(MnsConfig config, string name)
@@ -24,7 +25,7 @@ namespace Aliyun.MNS
             this.Name = name;
         }
 
-        public QueueListModel ListQueue(string prefix = "", int pageSize = 0, string nextMarker = "")
+        public QueueListModel ListQueue(string prefix, int pageSize, string nextMarker)
         {
             var result = new ListQueueApiRequest(this.Config, prefix, pageSize, nextMarker).Call();
 
@@ -78,8 +79,13 @@ namespace Aliyun.MNS
             return result.Result;
         }
 
-        public string CreateQueue(QueueAttributeParameter parameter)
+        public string CreateQueue(QueueAttributeParameter parameter = null)
         {
+            if (parameter == null)
+            {
+                parameter = new QueueAttributeParameter();
+            }
+
             var result = new CreateQueueApiRequest(this.Config, this.Name, parameter).Call();
 
             return result.Result;
