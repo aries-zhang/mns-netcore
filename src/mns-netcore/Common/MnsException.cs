@@ -28,6 +28,28 @@ namespace Aliyun.MNS.Common
         }
     }
 
+    public class QueueAlreadyExistException : MnsException
+    {
+        public QueueAlreadyExistException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public QueueAlreadyExistException(MnsError error) : base(error)
+        {
+        }
+    }
+
+    public class QueueNumExceededLimitException : MnsException
+    {
+        public QueueNumExceededLimitException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public QueueNumExceededLimitException(MnsError error) : base(error)
+        {
+        }
+    }
+
     public class QueueNotExistException : MnsException
     {
         public QueueNotExistException(string errorMessage) : base(errorMessage)
@@ -48,6 +70,10 @@ namespace Aliyun.MNS.Common
 
     public class InvalidArgumentException : MnsException
     {
+        public InvalidArgumentException(string errorMessage) : base(errorMessage)
+        {
+        }
+
         public InvalidArgumentException(MnsError error) : base(error)
         {
         }

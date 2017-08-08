@@ -14,5 +14,11 @@ namespace Aliyun.MNS.Model
 
         [XmlElement(IsNullable = true)]
         public string ReceiptHandle { get; set; }
+
+        [XmlElement(IsNullable = true)]
+        public string ErrorCode { get; set; }
+
+        [XmlElement(IsNullable = true)]
+        public string ErrorMessage { get; set; }
     }
 }

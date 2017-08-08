@@ -1,8 +1,6 @@
 ﻿using Aliyun.MNS.Apis.Queue;
 using Aliyun.MNS.Model;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Aliyun.MNS
 {
@@ -16,10 +14,21 @@ namespace Aliyun.MNS
 
         public string Name { get; set; }
 
+        public Queue(MnsConfig config)
+        {
+        }
+
         public Queue(MnsConfig config, string name)
         {
             this.Config = config;
             this.Name = name;
+        }
+
+        public QueueListModel ListQueue(string prefix = "", int pageSize = 0, string nextMarker = "")
+        {
+            var result = new ListQueueApiRequest(this.Config, prefix, pageSize, nextMarker).Call();
+
+            return result.Result;
         }
 
         public QueueAttributeModel GetAttributes()
@@ -60,6 +69,30 @@ namespace Aliyun.MNS
         public void BatchDeleteMessage(List<string> receiptHandles)
         {
             new BatchDeleteMessageApiRequest(this.Config, this.Name, new BatchDeleteMessageApiParameter() { ReceiptHandles = receiptHandles }).Call();
+        }
+
+        public BatchSendMessageApiResultModel BatchSendMessage(BatchSendMessageApiParameter messages)
+        {
+            var result = new BatchSendMessageApiRequest(this.Config, this.Name, messages).Call();
+
+            return result.Result;
+        }
+
+        public string CreateQueue(QueueAttributeParameter parameter)
+        {
+            var result = new CreateQueueApiRequest(this.Config, this.Name, parameter).Call();
+
+            return result.Result;
+        }
+
+        public void DeleteQueue()
+        {
+            new DeleteQueueApiRequest(this.Config, this.Name).Call();
+        }
+
+        public void SetQueueAttributes(QueueAttributeParameter parameter)
+        {
+            new SetQueueAttributesApiRequest(this.Config, this.Name, parameter).Call();
         }
     }
 }
