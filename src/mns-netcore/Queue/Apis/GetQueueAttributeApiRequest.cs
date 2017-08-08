@@ -20,7 +20,7 @@ namespace Aliyun.MNS
         }
     }
 
-    public class GetQueueAttributeApiResult : ApiResult<QueueAttributeModel>
+    public class GetQueueAttributeApiResult : ApiResult<Model.QueueAttributeModel>
     {
         public GetQueueAttributeApiResult(HttpResponseMessage response) : base(response)
         {
@@ -31,7 +31,7 @@ namespace Aliyun.MNS
             switch (this.Response.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    this.Result = XmlSerdeUtility.Deserialize<QueueAttributeModel>(this.ResponseText);
+                    this.Result = XmlSerdeUtility.Deserialize<Model.QueueAttributeModel>(this.ResponseText);
                     break;
                 case HttpStatusCode.NotFound:
                     throw new QueueNotExistException(this.ResponseText);

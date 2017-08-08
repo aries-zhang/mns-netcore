@@ -60,5 +60,10 @@ namespace Aliyun.MNS
 
             return queueMap[name];
         }
+
+        public QueueListModel ListQueue(string prefix = "", int pageSize = 0, string nextMarker = "")
+        {
+            return new Queue(this.Config).ListQueue(prefix, pageSize, nextMarker);
+        }
     }
 }

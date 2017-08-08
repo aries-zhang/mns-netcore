@@ -10,9 +10,9 @@ namespace Aliyun.MNS.Model
         public string MessageBody { get; set; }
 
         [XmlElement]
-        public int DelaySeconds { get; set; }
+        public int DelaySeconds { get; set; } = 0;
 
         [XmlElement]
-        public int Priority { get; set; }
+        public int Priority { get; set; } = 8;
     }
 }

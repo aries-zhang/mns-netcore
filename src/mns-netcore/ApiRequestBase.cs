@@ -35,7 +35,7 @@ namespace Aliyun.MNS
             return result;
         }
 
-        protected virtual void AdditionalHeaders()
+        protected virtual void AdditionalHeaders(HttpRequestHeaders headers)
         {
         }
 
@@ -50,7 +50,7 @@ namespace Aliyun.MNS
             this.request.Headers.Add("Date", DateTime.UtcNow.ToString("r"));
             this.request.Headers.Add(MnsConstants.HTTP_HEADER_VERSION, MnsConstants.MNS_VERSION);
 
-            this.AdditionalHeaders();
+            this.AdditionalHeaders(this.request.Headers);
 
             var signature = Utility.CryptoUtility.SignRequest(this.request, this.config.AccessKeySecret);
             this.request.Headers.Authorization = new AuthenticationHeaderValue("MNS", $"{this.config.AccessKeyId}:{signature}");
