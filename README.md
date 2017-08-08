@@ -43,3 +43,5 @@ while (true)
     }
 }
 ```
+
+For full operations, please see [here](https://github.com/aries-zhang/mns-netcore/blob/master/src/mns-sample-producer/Program.cs).
