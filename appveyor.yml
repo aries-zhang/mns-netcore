@@ -1,5 +1,5 @@
 image: Visual Studio 2017
-version: 0.2.{build}-alpha
+version: 0.3.{build}-alpha
 configuration: Release
 force_https_clone: true
 
