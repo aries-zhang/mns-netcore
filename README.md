@@ -12,7 +12,7 @@ var Queue = MNS.Configure(Host, AccessKey, AccessSecret).Queue("test");
 
 for (int i = 0; i < 200; i++)
 {
-    var result = Queue.SendMessage(args.Length >= 1 ? args[0] + i : "test" + i);
+    var result = Queue.SendMessage($"Hellow world #{i}");
 }
 ```
 
@@ -40,6 +40,8 @@ while (true)
     {
         if (ex is MessageNotExistException)
             continue;
+
+        throw ex;
     }
 }
 ```

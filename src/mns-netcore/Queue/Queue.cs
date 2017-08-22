@@ -100,5 +100,20 @@ namespace Aliyun.MNS
         {
             new SetQueueAttributesApiRequest(this.Config, this.Name, parameter).Call();
         }
+
+        public ReceiveMessageModel PeekMessage()
+        {
+            return new PeekMessageApiRequest(this.Config, this.Name).Call().Result;
+        }
+
+        public BatchReceiveMessageModel BatchPeekMessage(int numOfMessages = 16)
+        {
+            return new BatchPeekMessageApiRequest(this.Config, this.Name, numOfMessages).Call().Result;
+        }
+
+        public ChangeVisibilityModel ChangeMessageVisibility(string receiptHandle, int visibilityTimeout)
+        {
+            return new ChangeMessageVisibilityApiRequest(this.Config, this.Name, receiptHandle, visibilityTimeout).Call().Result;
+        }
     }
 }

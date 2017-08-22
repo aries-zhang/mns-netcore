@@ -31,10 +31,12 @@ namespace Aliyun.MNS.Sample.Producer
             }
 
             queue.CreateQueue();
-
+            
             for (int i = 0; i < 8; i++)
             {
-                var result = queue.SendMessage(args.Length >= 1 ? args[0] + i : "this is test message #" + i);
+                var message = args.Length >= 1 ? args[0] + i : "this is test message #" + i;
+                var result = queue.SendMessage(message);
+                Console.WriteLine($"SEND: [{result.MessageId}] - {message}");
             }
 
             var messages = new BatchSendMessageApiParameter()
@@ -44,7 +46,19 @@ namespace Aliyun.MNS.Sample.Producer
 
             queue.BatchSendMessage(messages);
 
+            Console.WriteLine($"BATCH SEND: {messages.Messages.Count} messages");
+
             Thread.Sleep(2000);
+
+            var peakedMessage = queue.PeekMessage();
+
+            Console.WriteLine($"PEAK: [{peakedMessage.ReceiptHandle}] - {peakedMessage.MessageBody}");
+
+            var batchPeakedMessages = queue.BatchPeekMessage(10);
+            foreach (var message in batchPeakedMessages.Messages)
+            {
+                Console.WriteLine($"BATCH PEAK: {message.MessageBody}");
+            }
 
             while (true)
             {
@@ -52,7 +66,13 @@ namespace Aliyun.MNS.Sample.Producer
                 {
                     var message = queue.ReceiveMessage();
                     Console.WriteLine($"Single Receive: {message.MessageBody}");
+
+                    Console.WriteLine("Changing visible time for this message.");
+                    var changeResult = queue.ChangeMessageVisibility(message.ReceiptHandle, 600);
+                    Console.WriteLine($"NEXT VISIBLE: {changeResult.NextVisibleTime}");
+
                     queue.DeleteMessage(message.ReceiptHandle);
+                    Console.WriteLine($"DELETE: {message.ReceiptHandle}");
 
                     var batchMessages = queue.BatchReceiveMessage();
                     batchMessages.Messages.ForEach(m => Console.WriteLine($"Batch Receive: {m.MessageBody}"));
