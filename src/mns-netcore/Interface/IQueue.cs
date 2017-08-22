@@ -25,10 +25,10 @@ namespace Aliyun.MNS
 
         void DeleteQueue();
 
-        //QueueListModel ListQueue(string prefix = "", int pageSize = 0, string nextMarker = "");
+        ReceiveMessageModel PeekMessage();
 
-        // PeekMessage
-        // BatchPeekMessage
-        // ChangeMessageVisibility
+        BatchReceiveMessageModel BatchPeekMessage(int numOfMessages = 16);
+
+        ChangeVisibilityModel ChangeMessageVisibility(string receiptHandle, int visibilityTimeout);
     }
 }
