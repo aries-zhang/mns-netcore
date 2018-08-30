@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Security.Cryptography;
+using System.Net.Http.Headers;
 
 namespace Aliyun.MNS.Utility
 {
@@ -18,7 +19,7 @@ namespace Aliyun.MNS.Utility
             list.Add(request.Content.Headers.ContentType.ToString());
             list.Add(request.Headers.Date.Value.UtcDateTime.ToString("r"));
 
-            foreach (KeyValuePair<string, IEnumerable<string>> header in request.Headers.Where(kv => kv.Key.StartsWith("x-mns-")).OrderBy(kv => kv.Key))
+            foreach (var header in request.Headers.Where(kv => kv.Key.StartsWith("x-mns-")).OrderBy(kv => kv.Key))
             {
                 list.Add(string.Format("{0}:{1}", header.Key, header.Value.Last()));
             }
@@ -30,6 +31,13 @@ namespace Aliyun.MNS.Utility
             var hash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(raw)));
 
             return hash;
+        }
+        
+        public static void AliCloudSign(this HttpRequestMessage message, MnsConfig config)
+        {
+            string signature = SignRequest(message, config.AccessKeySecret);
+
+            message.Headers.Authorization = new AuthenticationHeaderValue("MNS", $"{config.AccessKeyId}:{signature}");
         }
     }
 }

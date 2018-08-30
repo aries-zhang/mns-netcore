@@ -1,9 +1,9 @@
 ﻿using Aliyun.MNS.Common;
+using Aliyun.MNS.Utility;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Aliyun.MNS
 {
@@ -45,15 +45,13 @@ namespace Aliyun.MNS
             this.request.Content = new StringContent(string.IsNullOrEmpty(this.Body) ? string.Empty : this.Body);
             this.request.Content.Headers.ContentType = new MediaTypeHeaderValue(MnsConstants.CONTENT_TYPE);
 
-            var host = Regex.IsMatch(this.config.Endpoint.ToLower(), "^((http://)|(https://))") ? Regex.Replace(this.config.Endpoint.ToLower(), "^((http://)|(https://))", string.Empty) : this.config.Endpoint;
-            this.request.Headers.Host = host;
+            this.request.Headers.Host = this.config.EndpointWithoutProtocol();
             this.request.Headers.Add("Date", DateTime.UtcNow.ToString("r"));
             this.request.Headers.Add(MnsConstants.HTTP_HEADER_VERSION, MnsConstants.MNS_VERSION);
 
             this.AdditionalHeaders(this.request.Headers);
 
-            var signature = Utility.CryptoUtility.SignRequest(this.request, this.config.AccessKeySecret);
-            this.request.Headers.Authorization = new AuthenticationHeaderValue("MNS", $"{this.config.AccessKeyId}:{signature}");
+            this.request.AliCloudSign(this.config);
         }
     }
 

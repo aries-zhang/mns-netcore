@@ -12,5 +12,7 @@ namespace Aliyun.MNS.Common
         public const string HTTP_HEADER_VERSION = "x-mns-version";
 
         public const string MNS_XML_NS = "http://mns.aliyuncs.com/doc/v1";
+
+        public const string HTTP_PROTOCOL_REGEX = "^((http://)|(https://))";
     }
 }
