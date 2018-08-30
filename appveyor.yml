@@ -13,6 +13,11 @@ build:
   project: mns-netcore.sln
   verbosity: minimal
   publish_nuget: true
+
+test:
+  assemblies:
+    only:
+      - '**\*-test.dll'
   
 after_build:
   - dotnet pack /p:Version=%APPVEYOR_BUILD_VERSION% -c %CONFIGURATION% -o .\ src\mns-netcore\mns-netcore.csproj
