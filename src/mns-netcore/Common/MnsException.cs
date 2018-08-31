@@ -92,4 +92,37 @@ namespace Aliyun.MNS.Common
         {
         }
     }
+
+    public class TopicAlreadyExistException : MnsException
+    {
+        public TopicAlreadyExistException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public TopicAlreadyExistException(MnsError error) : base(error)
+        {
+        }
+    }
+
+    public class TopicNameLengthErrorException : MnsException
+    {
+        public TopicNameLengthErrorException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public TopicNameLengthErrorException(MnsError error) : base(error)
+        {
+        }
+    }
+
+    public class TopicNotExistException : MnsException
+    {
+        public TopicNotExistException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public TopicNotExistException(MnsError error) : base(error)
+        {
+        }
+    }
 }
