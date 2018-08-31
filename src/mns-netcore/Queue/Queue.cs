@@ -25,7 +25,7 @@ namespace Aliyun.MNS
             this.Name = name;
         }
 
-        public QueueListModel ListQueue(string prefix, int pageSize, string nextMarker)
+        public QueueListModel ListQueues(string prefix, int pageSize, string nextMarker)
         {
             var result = new ListQueueApiRequest(this.Config, prefix, pageSize, nextMarker).Call();
 

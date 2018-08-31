@@ -25,6 +25,8 @@ namespace Aliyun.MNS
 
         void DeleteQueue();
 
+        QueueListModel ListQueues(string prefix, int pageSize, string nextMarker);
+
         ReceiveMessageModel PeekMessage();
 
         BatchReceiveMessageModel BatchPeekMessage(int numOfMessages = 16);

@@ -125,4 +125,70 @@ namespace Aliyun.MNS.Common
         {
         }
     }
+
+    public class SubscriptionAlreadyExists : MnsException
+    {
+        public SubscriptionAlreadyExists(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public SubscriptionAlreadyExists(MnsError error) : base(error)
+        {
+        }
+    }
+
+    public class SubscriptionNameLengthErrorException : MnsException
+    {
+        public SubscriptionNameLengthErrorException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public SubscriptionNameLengthErrorException(MnsError error) : base(error)
+        {
+        }
+    }
+
+    public class SubscriptionNameInvalidException : MnsException
+    {
+        public SubscriptionNameInvalidException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public SubscriptionNameInvalidException(MnsError error) : base(error)
+        {
+        }
+    }
+
+    public class SubscriptionEndpointInvalidException : MnsException
+    {
+        public SubscriptionEndpointInvalidException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public SubscriptionEndpointInvalidException(MnsError error) : base(error)
+        {
+        }
+    }
+
+    public class SubscriptionInvalidArgumentException : MnsException
+    {
+        public SubscriptionInvalidArgumentException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public SubscriptionInvalidArgumentException(MnsError error) : base(error)
+        {
+        }
+    }    
+
+    public class SubscriptionNotExistException : MnsException
+    {
+        public SubscriptionNotExistException(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        public SubscriptionNotExistException(MnsError error) : base(error)
+        {
+        }
+    }
 }
