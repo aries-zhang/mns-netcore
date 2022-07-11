@@ -22,6 +22,6 @@ jobs:
 
       - name: Build solution and generate NuGet package
         env:
-          BUILD_NUMBER: ${{ github.run_id }}
+          BUILD_NUMBER: ${{ github.run_number }}
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: make pack
