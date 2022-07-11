@@ -31,7 +31,7 @@ namespace Aliyun.MNS.Sample.Producer
             }
 
             queue.CreateQueue();
-            
+
             for (int i = 0; i < 8; i++)
             {
                 var message = args.Length >= 1 ? args[0] + i : "this is test message #" + i;
@@ -80,7 +80,7 @@ namespace Aliyun.MNS.Sample.Producer
                 }
                 catch (MessageNotExistException ex)
                 {
-                    Console.WriteLine("No messages any more.");
+                    Console.WriteLine("No messages any more: " + ex.Message);
                     break;
                 }
             }
