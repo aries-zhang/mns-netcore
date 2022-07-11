@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>exe</OutputType>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>mns-sample-producer</AssemblyName>
     <RootNamespace>Aliyun.MNS.Sample.Producer</RootNamespace>
     <ApplicationIcon />
